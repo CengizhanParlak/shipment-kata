@@ -1,4 +1,5 @@
 import com.trendyol.shipment.Basket;
+import com.trendyol.shipment.NoProductsOnBasket;
 import com.trendyol.shipment.Product;
 import com.trendyol.shipment.ShipmentSize;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +29,7 @@ class BasketTest {
 
     @ParameterizedTest
     @MethodSource("shipmentSizeOfProductsAndBasketShipmentSize")
-    void shouldGetOrderShipmentSizeAsExpected(List<ShipmentSize> shipmentSizesOfProducts, ShipmentSize orderShipmentSize) {
+    void shouldGetOrderShipmentSizeAsExpected(List<ShipmentSize> shipmentSizesOfProducts, ShipmentSize orderShipmentSize) throws NoProductsOnBasket {
         final var products = shipmentSizesOfProducts.stream().map(Product::create).collect(Collectors.toList());
 
         basket.setProducts(products);
