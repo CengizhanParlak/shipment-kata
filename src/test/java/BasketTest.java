@@ -1,7 +1,6 @@
-import com.trendyol.shipment.Basket;
-import com.trendyol.shipment.NoProductsOnBasket;
-import com.trendyol.shipment.Product;
-import com.trendyol.shipment.ShipmentSize;
+import com.trendyol.exceptions.shipment.BaseShipmentException;
+import com.trendyol.shipment.*;
+import com.trendyol.shipment.sizedeterminer.UserShipmentSizeDeterminer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,12 +23,12 @@ class BasketTest {
 
     @BeforeEach
     void setUp() {
-        basket = new Basket();
+        basket = new Basket(new UserShipmentSizeDeterminer());
     }
 
     @ParameterizedTest
     @MethodSource("shipmentSizeOfProductsAndBasketShipmentSize")
-    void shouldGetOrderShipmentSizeAsExpected(List<ShipmentSize> shipmentSizesOfProducts, ShipmentSize orderShipmentSize) throws NoProductsOnBasket {
+    void shouldGetOrderShipmentSizeAsExpected(List<ShipmentSize> shipmentSizesOfProducts, ShipmentSize orderShipmentSize) throws BaseShipmentException {
         final var products = shipmentSizesOfProducts.stream().map(Product::create).collect(Collectors.toList());
 
         basket.setProducts(products);
